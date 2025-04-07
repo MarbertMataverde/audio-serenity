@@ -21,7 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 				inter: ['Inter', 'sans-serif'],
-				nunito: ['Nunito', 'sans-serif'], // Adding a simpler font alternative
+				montserrat: ['Montserrat', 'sans-serif'], // Adding a more minimalist font
 			},
 			colors: {
 				border: 'hsl(var(--border))',
