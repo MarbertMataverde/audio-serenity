@@ -1,110 +1,104 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Menu, X, User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  Headphones,
+  LogOut,
+  Settings,
+  User,
+} from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import SearchBar from './SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { user, signOut, isAdmin } = useAuth();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isMobile = useIsMobile();
-  
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-  
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
   };
   
   return (
-    <nav className="border-b border-[#141314]/10">
-      <div className="container-custom flex justify-between items-center h-16">
-        <div className="font-semibold text-lg tracking-tight">
-          <Link to="/" className="hover:opacity-80 transition-opacity">
-            Audio Serenity
-          </Link>
-        </div>
-        
-        {/* Desktop Menu */}
-        {!isMobile && (
-          <div className="flex items-center space-x-4">
-            <Link to="/" className="navbar-link">Home</Link>
-            <Link to="/catalog" className="navbar-link">Catalog</Link>
-            {isAdmin && <Link to="/admin" className="navbar-link">Admin</Link>}
+    <header className="bg-white border-b border-border sticky top-0 z-10">
+      <div className="container-custom mx-auto">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link to="/" className="flex items-center gap-2 font-semibold text-lg">
+              <Headphones className="h-6 w-6" />
+              <span>Audio Serenity</span>
+            </Link>
+            <nav className="hidden md:flex items-center gap-1">
+              <Link to="/" className="navbar-link">Home</Link>
+              <Link to="/catalog" className="navbar-link">Catalog</Link>
+              {user && isAdmin && (
+                <Link to="/admin" className="navbar-link">Admin</Link>
+              )}
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            <SearchBar />
             {user ? (
-              <div className="flex items-center space-x-3">
-                <Button 
-                  variant="ghost"
-                  size="sm"
-                  className="font-normal"
-                  onClick={() => signOut()}
-                >
-                  Sign Out
-                </Button>
-                <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                  <User size={16} />
-                </div>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.user_metadata?.avatar_url || ''} alt={user.email || ''} />
+                      <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user.user_metadata?.full_name || user.email}</p>
+                      <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    {isAdmin && (
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin">
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Admin Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
-              <Link to="/login" className="btn-subtle">Log In</Link>
+              <Button asChild variant="default" size="sm">
+                <Link to="/login">Login</Link>
+              </Button>
             )}
           </div>
-        )}
-        
-        {/* Mobile Menu Toggle */}
-        {isMobile && (
-          <button 
-            onClick={toggleMobileMenu}
-            className="text-[#141314] p-2"
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        )}
+        </div>
       </div>
-      
-      {/* Mobile Menu */}
-      {isMobile && mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-background pt-16">
-          <div className="container-custom flex flex-col space-y-4 py-6">
-            <Link to="/" className="navbar-link py-3 text-base" onClick={closeMobileMenu}>Home</Link>
-            <Link to="/catalog" className="navbar-link py-3 text-base" onClick={closeMobileMenu}>Catalog</Link>
-            {isAdmin && <Link to="/admin" className="navbar-link py-3 text-base" onClick={closeMobileMenu}>Admin</Link>}
-            {user ? (
-              <>
-                <div className="flex items-center space-x-3 py-3">
-                  <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                    <User size={16} />
-                  </div>
-                  <span className="text-sm">{user.email}</span>
-                </div>
-                <Button 
-                  variant="outline"
-                  onClick={() => {
-                    signOut();
-                    closeMobileMenu();
-                  }}
-                  className="mt-4"
-                >
-                  Sign Out
-                </Button>
-              </>
-            ) : (
-              <Link 
-                to="/login" 
-                className="btn-subtle w-full flex justify-center" 
-                onClick={closeMobileMenu}
-              >
-                Log In
-              </Link>
-            )}
-          </div>
-        </div>
-      )}
-    </nav>
+    </header>
   );
 };
 

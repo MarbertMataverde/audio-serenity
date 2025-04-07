@@ -11,6 +11,7 @@ import CatalogPage from "./pages/CatalogPage";
 import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import AudiobookDetailPage from "./pages/AudiobookDetailPage";
+import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AudioPlayerProvider } from "./contexts/AudioPlayerContext";
@@ -34,6 +35,7 @@ const App = () => (
                   <Route path="/audiobook/:id" element={<AudiobookDetailPage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>
