@@ -7,33 +7,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 20%;
+    --background: 0 0% 94%;
+    --foreground: 320 1% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 20%;
+    --card-foreground: 320 1% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 20%;
+    --popover-foreground: 320 1% 8%;
 
-    --primary: 0 0% 20%;
+    --primary: 320 1% 8%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 20%;
+    --secondary-foreground: 320 1% 8%;
 
     --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted-foreground: 320 1% 45%;
 
     --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 20%;
+    --accent-foreground: 320 1% 8%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 92%;
     --input: 0 0% 92%;
-    --ring: 0 0% 20%;
+    --ring: 320 1% 8%;
 
     --radius: 0.5rem;
   }
@@ -43,7 +43,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-[#efecec] text-[#141314] font-inter;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 }
@@ -54,7 +54,7 @@
   }
   
   .btn-subtle {
-    @apply px-4 py-2 rounded-md bg-secondary text-primary hover:bg-secondary/80 transition-colors duration-200;
+    @apply px-4 py-2 rounded-md bg-[#252525] text-white hover:bg-[#252525]/90 transition-colors duration-200;
   }
   
   .audiobook-card {
@@ -62,11 +62,11 @@
   }
   
   .navbar-link {
-    @apply text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2;
+    @apply text-sm text-[#141314]/70 hover:text-[#141314] transition-colors px-3 py-2;
   }
   
   .search-input {
-    @apply w-full py-2 px-4 bg-secondary rounded-md focus:outline-none focus:ring-1 focus:ring-primary/20;
+    @apply w-full py-2 px-4 bg-white rounded-md focus:outline-none focus:ring-1 focus:ring-[#141314]/20;
   }
 }
 
