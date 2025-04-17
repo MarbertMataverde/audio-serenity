@@ -9,13 +9,108 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      audiobooks: {
+        Row: {
+          audio_url: string
+          author: string
+          cover_url: string
+          created_at: string
+          description: string | null
+          duration: number
+          id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          audio_url: string
+          author: string
+          cover_url: string
+          created_at?: string
+          description?: string | null
+          duration?: number
+          id?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          audio_url?: string
+          author?: string
+          cover_url?: string
+          created_at?: string
+          description?: string | null
+          duration?: number
+          id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      listening_progress: {
+        Row: {
+          audiobook_id: string
+          completed: boolean
+          current_position: number
+          id: string
+          last_listened_at: string
+          user_id: string
+        }
+        Insert: {
+          audiobook_id: string
+          completed?: boolean
+          current_position?: number
+          id?: string
+          last_listened_at?: string
+          user_id: string
+        }
+        Update: {
+          audiobook_id?: string
+          completed?: boolean
+          current_position?: number
+          id?: string
+          last_listened_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listening_progress_audiobook_id_fkey"
+            columns: ["audiobook_id"]
+            isOneToOne: false
+            referencedRelation: "audiobooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: { _role: string } | { _user_id: string; _role: string }
+        Returns: boolean
+      }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
