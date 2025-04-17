@@ -19,6 +19,7 @@ import {
   CardTitle 
 } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
+import { addUserRole } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 interface AdminFormValues {
@@ -63,12 +64,7 @@ const AdminAccountCreator = () => {
       }
       
       // 2. Assign admin role to the user
-      const { error: roleError } = await supabase
-        .from('user_roles')
-        .insert({
-          user_id: userData.user.id,
-          role: 'admin'
-        });
+      const { error: roleError } = await addUserRole(userData.user.id, 'admin');
       
       if (roleError) throw roleError;
       
