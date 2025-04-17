@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,6 +7,7 @@ import {
   LogOut,
   Settings,
   User,
+  ShieldCheck
 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import SearchBar from './SearchBar';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,12 +60,22 @@ const Navbar = () => {
                       <AvatarImage src={user.user_metadata?.avatar_url || ''} alt={user.email || ''} />
                       <AvatarFallback>{user.email?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
                     </Avatar>
+                    {isAdmin && (
+                      <Badge variant="secondary" className="absolute -top-2 -right-2 h-5 w-5 p-0 flex items-center justify-center">
+                        <ShieldCheck className="h-3 w-3" />
+                      </Badge>
+                    )}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.user_metadata?.full_name || user.email}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium leading-none">{user.user_metadata?.full_name || user.email}</p>
+                        {isAdmin && (
+                          <Badge variant="secondary" className="text-xs">Admin</Badge>
+                        )}
+                      </div>
                       <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                     </div>
                   </DropdownMenuLabel>

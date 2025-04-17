@@ -19,3 +19,9 @@ export interface ListeningProgress {
   completed: boolean;
   last_listened_at: string;
 }
+
+export interface UserRole {
+  id: string;
+  user_id: string;
+  role: string;
+}
