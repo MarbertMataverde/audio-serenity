@@ -1,5 +1,4 @@
 
-
 export interface Audiobook {
   id: string;
   title: string;
@@ -20,4 +19,3 @@ export interface ListeningProgress {
   completed: boolean;
   last_listened_at: string;
 }
-
